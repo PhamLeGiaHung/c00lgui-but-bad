@@ -1,0 +1,88 @@
+from guizero import App, Box, Text, PushButton
+
+# ======================
+# Cấu hình màu
+# ======================
+BG       = "black"
+TEXT     = "white"
+BORDER   = "red"
+
+APP_W, APP_H = 600, 500
+
+# ======================
+# Hàm tạo nút style
+# ======================
+def make_button(parent, label, grid=None):
+    btn = PushButton(parent, text=label, width=12, height=2, grid=grid)
+    btn.text_color = TEXT
+    btn.bg = BG
+    btn.tk.config(
+        highlightbackground=BORDER,
+        highlightcolor=BORDER,
+        highlightthickness=2,
+        bd=2
+    )
+    return btn
+
+# Hàm tạo Box có viền đỏ
+def make_box(parent, grid=None, width=None, height=None, layout=None):
+    box = Box(parent, grid=grid, width=width, height=height, layout=layout)
+    box.bg = BG
+    box.tk.config(
+        highlightbackground=BORDER,
+        highlightcolor=BORDER,
+        highlightthickness=2,
+        bd=2
+    )
+    return box
+
+# ======================
+# App
+# ======================
+app = App("c00lGUI Red Border", width=APP_W, height=APP_H, bg=BG, layout="grid")
+
+# Header
+header = make_box(app, grid=[0,0], width=APP_W, height=40)
+Text(header, text="c00lgui Reborn Rc7 by v3rx", size=14, color=TEXT, font="Consolas")
+
+# Điều hướng < >
+nav = make_box(app, grid=[0,1], width=APP_W, height=40, layout="grid")
+make_button(nav, "<", grid=[0,0])
+make_button(nav, ">", grid=[1,0])
+
+# 2 Box riêng: Weapon Scripts / Gear Tools
+label_box = make_box(app, grid=[0,2], width=APP_W, height=40, layout="grid")
+
+weapon_label = make_box(label_box, grid=[0,0], width=APP_W//2, height=40)
+Text(weapon_label, text="Weapon Scripts", size=12, color=TEXT, font="Consolas")
+
+gear_label = make_box(label_box, grid=[1,0], width=APP_W//2, height=40)
+Text(gear_label, text="Gear/Tools", size=12, color=TEXT, font="Consolas")
+
+# Nội dung 2 cột
+content = make_box(app, grid=[0,3], width=APP_W, height=350, layout="grid")
+
+weapons = [
+    "Drage","Eyelasers","Lance","Master Hand","Snowball","Empty","Wand",
+    "Dual Blades","Knife","Lightsaber","Plane","Staff","Techno Gauntlet","xBow"
+]
+
+gears = [
+    "Custom Gear","Tool Stealer","Dev Uzi","Draw Tool","Empty","Empty","Empty",
+    "Stamper Tools","Empty","God Laser","Empty","Empty","Empty","Empty"
+]
+
+for i in range(7):  # 7 hàng
+    make_button(content, weapons[i], grid=[i,0])
+    make_button(content, weapons[i+7], grid=[i,1])
+    make_button(content, gears[i], grid=[i,2])
+    make_button(content, gears[i+7], grid=[i,3])
+
+# Close button
+close_box = make_box(app, grid=[0,4], width=APP_W, height=40)
+make_button(close_box, "Close")
+
+# ======================
+# Run
+# ======================
+app.display()
